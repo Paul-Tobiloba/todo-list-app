@@ -8,11 +8,10 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    Icon,
     IconButton,
     HStack,
 } from '@chakra-ui/react';
-import { HamburgerIcon, DeleteIcon, EditIcon } from "@chakra-ui/icon"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const TodoItem = (props) => {
     const { item, removeTodo, editTodo, completeTodo } = props;
@@ -32,35 +31,50 @@ const TodoItem = (props) => {
     }
 
     return (
-        <Box>
-            <ListItem key={item.id}>
+        <Box maxW="sm"
+            border="1px solid"
+            borderColor="gray.200"
+            rounded="lg"
+            p="4"
+            my="1"
+            bg="white"
+        >
+            <ListItem key={item.id}
+                isSelected={item.completed}
+            >
                 <HStack spacing={4}>
-                <Checkbox onChange={() => completeTodo(item.id)} checked={item.completed} />
-                <Input className={`${'todo-input'} ${item.completed ? 'completed' : ''}`}
-                    size="sm"
-                    ref={inputRef}
-                    disabled={inputRef}
-                    defaultValue={item.item}
-                    variant="filled"
-                    opacity={item.completed ? 0.5 : 1}
-                    onKeyPress={(e) => update(item.id, inputRef.current.value, e)}
-                />
-                <Menu>
-                    <MenuButton
-                        as={IconButton}
-                        aria-label="options"
-                        icon={<Icon name="hamburger"/>}
-                        variant="ghost"
+                    <Checkbox onChange={() => completeTodo(item.id)} checked={item.completed} />
+                    <Input className={`${'todo-input'} ${item.completed ? 'completed' : ''}`}
+                        size="sm"
+                        ref={inputRef}
+                        disabled={inputRef}
+                        defaultValue={item.item}
+                        variant="filled"
+                        opacity={item.completed ? 0.5 : 1}
+                        onKeyPress={(e) => update(item.id, inputRef.current.value, e)}
                     />
-                    <MenuList>
-                        <MenuItem onClick={() => changeFocus()}
-                            icon={<Icon name="edit" />}
-                            command="edit">Edit</MenuItem>
-                        <MenuItem onClick={() => removeTodo(item.id)}
-                            icon={<Icon name="delete" />}
-                            command="delete">Delete</MenuItem>
-                    </MenuList>
-                </Menu>
+                    <Menu>
+                        <MenuButton
+                            as={IconButton}
+                            aria-label="options"
+                            icon={<FontAwesomeIcon icon={
+                                ['far', 'ellipsis-v']
+                            } />}
+                            variant="ghost"
+                        />
+                        <MenuList>
+                            <MenuItem onClick={() => changeFocus()}
+                                icon={<FontAwesomeIcon icon={
+                                    ['far', 'edit']
+                                } />}
+                                command="edit">Edit</MenuItem>
+                            <MenuItem onClick={() => removeTodo(item.id)}
+                                icon={<FontAwesomeIcon icon={
+                                    ['far', 'trash-alt']
+                                } />}
+                                command="delete">Delete</MenuItem>
+                        </MenuList>
+                    </Menu>
                 </HStack>
             </ListItem>
         </Box>
