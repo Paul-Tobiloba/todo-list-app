@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Button, Box, List } from '@chakra-ui/react';
+import { Icon, List, Tabs, TabList,  Tab, } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import { addTodos, removeTodos, toggleTodos, editTodos, clearTodos, completeTodos } from '../redux/reducer';
 import TodoItem from './TodoItem';
+import { ActiveIcon, DoneIcon, AllListIcon  } from '../assets/icons/Icon';
 
 
 const mapStateToProps = (state) => {
@@ -27,18 +28,18 @@ const TodoList = (props) => {
 
 
     return (
-        <Box className="displaytodos">
-            <div className="buttons">
-                <Button onClick={
-                    () => setSort('active')
-                } >Active</Button>
-                <Button onClick={
+        <Tabs isFitted variant="enclosed">
+            <TabList mb="1em" className="buttons">
+                <Tab onClick={
+                    () => setSort('active')} 
+                    ><Icon as={ActiveIcon} m="1" />Active</Tab>
+                <Tab onClick={
                     () => setSort('completed')
-                } >Completed</Button>
-                <Button onClick={
+                } ><Icon as={DoneIcon} m="1" /> Completed</Tab>
+                <Tab onClick={
                     () => setSort('all')
-                }>All</Button>
-            </div>
+                }><Icon as={AllListIcon} /> All</Tab>
+            </TabList>
             <List spacing={3} >
             {props.todos.length > 0 && sort === 'active' ?
                     props.todos.map(item => {
@@ -85,7 +86,7 @@ const TodoList = (props) => {
                     }
                     ) : null}
             </List>
-        </Box>
+        </Tabs>
     )
 }
 

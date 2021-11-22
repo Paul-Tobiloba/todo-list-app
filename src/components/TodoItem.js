@@ -8,10 +8,11 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
+    Icon,
     IconButton,
     HStack,
 } from '@chakra-ui/react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { DeleteIcon, DotIcon, EditIcon } from '../assets/icons/Icon';
 
 const TodoItem = (props) => {
     const { item, removeTodo, editTodo, completeTodo } = props;
@@ -50,28 +51,22 @@ const TodoItem = (props) => {
                         disabled={inputRef}
                         defaultValue={item.item}
                         variant="filled"
-                        opacity={item.completed ? 0.5 : 1}
+                        opacity={1}
                         onKeyPress={(e) => update(item.id, inputRef.current.value, e)}
                     />
                     <Menu>
                         <MenuButton
                             as={IconButton}
                             aria-label="options"
-                            icon={<FontAwesomeIcon icon={
-                                ['far', 'ellipsis-v']
-                            } />}
+                            icon={<Icon as={DotIcon} />}
                             variant="ghost"
                         />
                         <MenuList>
                             <MenuItem onClick={() => changeFocus()}
-                                icon={<FontAwesomeIcon icon={
-                                    ['far', 'edit']
-                                } />}
+                                icon={<Icon as={EditIcon} />}
                                 command="edit">Edit</MenuItem>
                             <MenuItem onClick={() => removeTodo(item.id)}
-                                icon={<FontAwesomeIcon icon={
-                                    ['far', 'trash-alt']
-                                } />}
+                                icon={<Icon as={DeleteIcon} />}
                                 command="delete">Delete</MenuItem>
                         </MenuList>
                     </Menu>

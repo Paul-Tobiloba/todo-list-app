@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { addTodos, removeTodos, toggleTodos, editTodos, clearTodos, completeTodos } from '../redux/reducer';
-import { Button, Input, InputGroup, InputLeftAddon } from '@chakra-ui/react';
-
+import { Button, Input, InputGroup, Icon } from '@chakra-ui/react';
+import { ClearAllIcon, AddIcon } from '../assets/icons/Icon';
 
 const mapStateToProps = (state) => {
     return {
@@ -47,8 +47,18 @@ const Todos = (props) => {
 
     return (
         <div className="addTodos">
+            {props.todos.length > 0 ? <Button
+                onClick={() => props.clearTodos()}
+                aria-label="clear all todos"
+                leftIcon={<Icon as={ClearAllIcon} />}
+                variant="outline"
+                color="red.500"
+                size="md"
+                m=".3em"
+                colorScheme="red"
+                borderRadius="md"
+            >Clear All</Button> : null}
             <InputGroup>
-                <InputLeftAddon children="Add Todo" />
                 <Input type="text"
                     placeholder="Add Todos"
                     className="todo-input"
@@ -59,18 +69,17 @@ const Todos = (props) => {
                 <Button className="todo-button"
                     type="submit"
                     onClick={() => handleSubmit()}
-                >Add</Button>
+                    aria-label="add todo"
+                    size="md"
+                    ml="1em"
+                    colorScheme="green"
+                ><Icon as={AddIcon} /></Button>
             </InputGroup>
             {error ? <p style={{
                 color: "red",
                 fontSize: "12px",
                 marginTop: "1px",
             }} >{error}</p> : null}
-
-
-            {props.todos.length > 0 ? <Button
-                onClick={() => props.clearTodos()}
-            >Clear Todos</Button> : null}
 
         </div>
     )
