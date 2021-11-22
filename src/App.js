@@ -9,7 +9,7 @@ import Main from './components/layout/Main';
 
 function App() {
     return (
-        <Box className="app">
+        <div className="app">
             <Header />
             <Divider my="2"/>
             <Main>
@@ -18,7 +18,7 @@ function App() {
             <Footer>
                 <Todos />
             </Footer>
-        </Box>
+        </div>
     );
 }
 

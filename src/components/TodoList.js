@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Icon, List, Tabs, TabList,  Tab, } from '@chakra-ui/react';
+import { Icon, List, Tabs, TabList, Tab, } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import { addTodos, removeTodos, toggleTodos, editTodos, clearTodos, completeTodos } from '../redux/reducer';
 import TodoItem from './TodoItem';
-import { ActiveIcon, DoneIcon, AllListIcon  } from '../assets/icons/Icon';
+import { ActiveIcon, DoneIcon, AllListIcon } from '../assets/icons/Icon';
 
 
 const mapStateToProps = (state) => {
@@ -29,10 +29,10 @@ const TodoList = (props) => {
 
     return (
         <Tabs isFitted variant="enclosed">
-            <TabList mb="1em" className="buttons">
+            <TabList mb="1em" className="buttons"  height="15%">
                 <Tab onClick={
-                    () => setSort('active')} 
-                    ><Icon as={ActiveIcon} m="1" />Active</Tab>
+                    () => setSort('active')}
+                ><Icon as={ActiveIcon} m="1" />Active</Tab>
                 <Tab onClick={
                     () => setSort('completed')
                 } ><Icon as={DoneIcon} m="1" /> Completed</Tab>
@@ -40,8 +40,8 @@ const TodoList = (props) => {
                     () => setSort('all')
                 }><Icon as={AllListIcon} /> All</Tab>
             </TabList>
-            <List spacing={3} >
-            {props.todos.length > 0 && sort === 'active' ?
+            <List spacing={3} maxHeight="60vh" height="60vh" overflowY="scroll" >
+                {props.todos.length > 0 && sort === 'active' ?
                     props.todos.map(item => {
                         return (
                             item.completed === false &&
