@@ -12,10 +12,10 @@ function App() {
         <Box className="app">
             <Header />
             <Main>
-            <TodoList />
+                <TodoList />
             </Main>
             <Footer>
-            <Todos />
+                <Todos />
             </Footer>
         </Box>
     );
