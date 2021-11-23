@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     Box,
     Editable,
@@ -14,14 +14,18 @@ import {
     IconButton,
     HStack,
     ButtonGroup,
-    useEditableControls
+    useEditableControls,
+    useToast
 } from '@chakra-ui/react';
 import { CheckIcon, ClearAllIcon, DeleteIcon, DotIcon, EditIcon } from '../assets/icons/Icon';
 
 const TodoItem = (props) => {
+    const [error, setError] = useState("");
+
     const { item, removeTodo, editTodo, completeTodo } = props;
 
     const inputRef = useRef(true);
+    const toast = useToast();
 
     const changeFocus = () => {
         inputRef.current.disabled = false;
@@ -30,10 +34,23 @@ const TodoItem = (props) => {
 
     const update = (id, value, e) => {
         if (e.which === 13) {
-            editTodo({ id, item: value });
-            inputRef.current.disabled = true;
+            if (value.trim() === '') {
+                setError("Input cannnot be empty");
+                toast({
+                    title: 'Warning',
+                    description: { error },
+                    status: 'warning',
+                    duration: 5000,
+                    isClosable: true
+                });
+                return;
+            }
+            editTodo({ id, item: value, completed: false });
+            setError("");
         }
     }
+
+
     const EditableControls = () => {
         const {
             isEditing,
@@ -44,7 +61,7 @@ const TodoItem = (props) => {
 
         return isEditing ? (
             <ButtonGroup justifyContent="flex-end" size="sm">
-                <IconButton icon={<CheckIcon />} {...getSubmitButtonProps()} />
+                <IconButton ml="8px" icon={<CheckIcon />} {...getSubmitButtonProps()} />
                 <IconButton icon={<ClearAllIcon />} {...getCancelButtonProps()} />
             </ButtonGroup>) : (
             <Menu justifyContent="flex-end" size="sm">
@@ -55,11 +72,11 @@ const TodoItem = (props) => {
                     variant="ghost"
                 />
                 <MenuList>
-                    <MenuItem onClick={() => changeFocus()}
+                    <MenuItem color="blue" onClick={() => changeFocus()}
                         icon={<Icon as={EditIcon} />}
                         {...getEditButtonProps()}
                         command="edit">Edit</MenuItem>
-                    <MenuItem onClick={() => removeTodo(item.id)}
+                    <MenuItem color="red" onClick={() => removeTodo(item.id)}
                         icon={<Icon as={DeleteIcon} />}
                         command="delete">Delete</MenuItem>
                 </MenuList>
@@ -81,33 +98,25 @@ const TodoItem = (props) => {
             >
                 <HStack spacing={4}>
                     <Checkbox onChange={() => completeTodo(item.id)} checked={item.completed} />
-                    {/* <Input className={`${'todo-input'} ${item.completed ? 'completed' : ''}`}
-                        size="sm"
-                        ref={inputRef}
-                        disabled={inputRef}
+                    <Editable
+                        onSubmit={(value) => editTodo({ id: item.id, item: value, completed: false })}
+                        onCancel={() => editTodo({ id: item.id, item: item.item, completed: item.completed })}
+                        onChange={(value) => editTodo({ id: item.id, item: value, completed: false })}
+                        onKeyDown={(e) => update(item.id, item.item, e)}
                         defaultValue={item.item}
-                        variant="filled"
-                        opacity={1}
-                        onKeyPress={(e) => update(item.id, inputRef.current.value, e)}
-                    /> */}
-                    <Editable display="flex" flexDirection="row" flexWrap="nowrap" alignItems="center" justifyContent="space-between" width="89%" >
-                        <EditablePreview
-                            isEditing={false}
+                        isRequired={true}
+                        isPreviewFocusable={false}
+                        isDisabled={item.completed}
+                        display="flex" flexDirection="row" flexWrap="nowrap"
+                        alignItems="center" justifyContent="space-between" width="89%" >
+                        <EditablePreview />
+                        <EditableInput 
                             ref={inputRef}
-                            defaultValue={item.item}
-
-                        />
-                        <EditableInput
-                            display="flex"
-
-                            ref={inputRef}
-                            defaultValue={item.item}
-                            onKeyPress={(e) => update(item.id, inputRef.current.value, e)}
+                            isRequired={true}
+                            isDisabled={item.completed}
                         />
                         <EditableControls />
                     </Editable>
-                    
-
                 </HStack>
             </ListItem>
         </Box>

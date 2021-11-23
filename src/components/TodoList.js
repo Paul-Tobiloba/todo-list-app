@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Icon, List, Tabs, TabList, Tab, } from '@chakra-ui/react';
 import { connect } from 'react-redux';
-import { addTodos, removeTodos, toggleTodos, editTodos, clearTodos, completeTodos } from '../redux/reducer';
+import { addTodos, removeTodos, editTodos, clearTodos, completeTodos } from '../redux/reducer';
 import TodoItem from './TodoItem';
 import { ActiveIcon, DoneIcon, AllListIcon } from '../assets/icons/Icon';
 
@@ -16,7 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         addTodo: (obj) => dispatch(addTodos(obj)),
         removeTodo: (id) => dispatch(removeTodos(id)),
-        toggleTodo: (id) => dispatch(toggleTodos(id)),
         editTodo: (obj) => dispatch(editTodos(obj)),
         clearTodos: () => dispatch(clearTodos()),
         completeTodo: (id) => dispatch(completeTodos(id))
@@ -29,7 +28,7 @@ const TodoList = (props) => {
 
     return (
         <Tabs isFitted variant="enclosed">
-            <TabList mb="1em" className="buttons"  height="15%">
+            <TabList mb="1em" className="buttons"  height="15%" borderColor="gray.300">
                 <Tab onClick={
                     () => setSort('active')}
                 ><Icon as={ActiveIcon} m="1" />Active</Tab>
@@ -49,7 +48,6 @@ const TodoList = (props) => {
                                 key={item.id}
                                 item={item}
                                 removeTodo={props.removeTodo}
-                                toggleTodo={props.toggleTodo}
                                 editTodo={props.editTodo}
                                 completeTodo={props.completeTodo}
                             />)
