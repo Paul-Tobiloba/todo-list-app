@@ -32,16 +32,16 @@ const Todos = (props) => {
 
     const handleSubmit = () => {
         // e.preventDefault();
-        if (todo === "") {
+        if (todo.trim() === "") {
             setError("Please enter a todo");
             toast({
-                    position: 'top',
-                    title: 'Please enter a todo',
-                    description: '',
-                    status: 'error',
-                    duration: 5000,
-                    isClosable: true
-                });
+                position: 'top',
+                title: 'Please enter a todo',
+                description: '',
+                status: 'error',
+                duration: 5000,
+                isClosable: true
+            });
             return;
         } else {
             props.addTodo({
@@ -67,7 +67,7 @@ const Todos = (props) => {
                 colorScheme="red"
                 borderRadius="md"
             >Clear All</Button> : null}
-            <InputGroup>
+            <InputGroup alignItems="center">
                 <Input type="text"
                     placeholder="Add Todos"
                     className="todo-input"
@@ -80,9 +80,11 @@ const Todos = (props) => {
                     type="submit"
                     onClick={() => handleSubmit()}
                     aria-label="add todo"
-                    size="md"
+                    size="lg"
+                    p="1em"
                     ml="1em"
                     colorScheme="purple"
+                    borderRadius="full"
                     isInvalid={error !== ""}
                 ><Icon as={AddIcon} /></Button>
             </InputGroup>

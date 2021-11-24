@@ -39,7 +39,8 @@ const addTodoReducer = createSlice({
                 if (todo.id === action.payload) {
                     return {
                         ...todo,
-                        completed: true
+                        completed: true,
+                        checked: true
                     };
                 }
                 return todo;
