@@ -102,8 +102,7 @@ const TodoItem = (props) => {
                 opacity: item.completed ? 0.7 : 1,
             }}>
             <ListItem key={item.id}
-                isSelected={item.completed}
-                isTruncated={true}
+                isSelected={item.completed
             >
                 <HStack spacing={4}>
                     <label>
@@ -117,7 +116,6 @@ const TodoItem = (props) => {
                         onKeyDown={(e) => update(item.id, item.item, e)}
                         defaultValue={item.item}
                         checked={item.completed}
-                        isTruncated={true}
                         isRequired={true}
                         isPreviewFocusable={false}
                         isDisabled={item.completed}
@@ -128,17 +126,8 @@ const TodoItem = (props) => {
                         <EditableInput
                             ref={inputRef}
                             isRequired
+                            isTruncated={true}
                             isDisabled={item.completed}
-                            // {...(inputRef?.current?.value?.trim() === '' && {
-                            //     boxShadow: '0 0 0 1px red',
-                            //     borderColor: 'red',
-                            // })}
-                            // {...(inputRef?.current?.value?.trim() === '', {
-                            //     required: {
-                            //         value: true,
-                            //         errorMessage: 'Input cannnot be empty',
-                            //     }
-                            // })}
                         />
                         <EditableControls />
                     </Editable>
